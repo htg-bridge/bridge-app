@@ -218,7 +218,7 @@ export default class CameraScreen extends React.Component {
       </View> 
       <TouchableOpacity style={styles.bottomButton} onPress={this.toggleView}>
         <View>
-          <Foundation name="thumbnails" size={30} color="white" />
+          <Foundation name="check" size={30} color="white" />
           {this.state.newPhotos && <View style={styles.newPhotosDot}/>}
         </View>
       </TouchableOpacity>
@@ -243,6 +243,9 @@ export default class CameraScreen extends React.Component {
           onFaceDetectionError={this.onFaceDetectionError}
           >
           {this.renderTopBar()}
+          <View style={styles.bottomText}>
+              <Text style={{color: 'white', alignSelf: 'center', justifyContent: 'center'}}>Please take 2 photos.</Text>
+          </View>
           {this.renderBottomBar()}
         </Camera>
         {this.state.faceDetecting && this.renderFaces()}
@@ -278,10 +281,23 @@ const styles = StyleSheet.create({
   bottomBar: {
     paddingBottom: 25,
     backgroundColor: 'transparent',
-    alignSelf: 'flex-end',
-    justifyContent: 'space-between',
+    alignSelf: 'center',
+    justifyContent: 'center',
     flex: 0.12,
     flexDirection: 'row',
+  },
+  bottomText: {
+    bottom: -190,
+    alignSelf: 'center',
+    flex: 0,
+    flexDirection: 'row',
+    width: 220,
+    height: 30,
+    backgroundColor: 'black',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius:20,
+    opacity: 0.4,
   },
   noPermissions: {
     flex: 1,

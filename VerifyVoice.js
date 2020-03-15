@@ -38,7 +38,7 @@ export default class VerifyVoice extends React.Component {
           <Image style={{ width: 310, height: 160, alignSelf: 'center'}} source={this.state.recordingImage} />
         </View>
         <View style={{flex: 1}}>
-          <Text style={{alignSelf: 'center'}}>Please say GO HOME LIAO</Text>
+          <Text style={{alignSelf: 'center', fontSize: 18}}>Please say GO HOME LIAO</Text>
         </View>
       </View>
     );

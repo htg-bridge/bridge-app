@@ -28,7 +28,7 @@ export default class RecordAudio extends React.Component {
     }
   }
 
-  render() {
+  render() {  
     if (this.state.moveOn) {
         return <GalleryScreen />
     }
@@ -38,7 +38,7 @@ export default class RecordAudio extends React.Component {
             <Image style={{ width: 310, height: 160, alignSelf: 'center'}} source={this.state.recordingImage} />
           </View>
           <View style={{flex: 1}}>
-            <Text style={{alignSelf: 'center'}}>Please say GO HOME LIAO...</Text>
+            <Text style={{alignSelf: 'center', fontSize: 18}}>Please say GO HOME LIAO...</Text>
             <View style={styles.buttonContainer}>
                 <Button
                 title="Done"
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     margin: 20,
     width: 220,
-    backgroundColor: '#2196F3',
+    backgroundColor: '#5AC9B7',
     borderRadius:20,
     justifyContent: 'center',
     alignContent: 'center',

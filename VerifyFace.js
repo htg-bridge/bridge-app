@@ -84,7 +84,7 @@ export default class VerifyFace extends React.Component {
   };
 
   changeRectangleColour = () => {
-    this.setState({ rectangleColor: 'green'});
+    this.setState({ rectangleColor: 'lime'});
   }
 
   renderFace({ bounds, faceID, rollAngle, yawAngle }) {
