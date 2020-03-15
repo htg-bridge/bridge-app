@@ -3,7 +3,7 @@ import { Image, StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { MaterialIcons } from '@expo/vector-icons';
 
-export default class IdentityConfirm extends React.Component {
+export default class RegisterIdentity extends React.Component {
   state = {
 
   };
@@ -16,8 +16,7 @@ export default class IdentityConfirm extends React.Component {
         </View>
         <View style={{flex: 1}}>
           <Text style={{alignSelf: 'center', fontSize: 24}}>You're all set!</Text>
-          <Text style={{alignSelf: 'center', fontSize: 22}}>ID: test-0001</Text>
-          <Text style={{alignSelf: 'center', fontSize: 22}}>Meal Count: 1</Text>
+          <Text style={{alignSelf: 'center', fontSize: 24}}>ID: test-0001</Text>
         </View>
       </View>
     );

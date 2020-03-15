@@ -6,7 +6,7 @@ import * as MediaLibrary from 'expo-media-library';
 import * as Permissions from 'expo-permissions';
 import { MaterialIcons } from '@expo/vector-icons';
 import Photo from './Photo';
-import IdentityConfirm from './IdentityConfirm';
+import RegisterIdentity from './RegisterIdentity';
 
 const PHOTOS_DIR = FileSystem.documentDirectory + 'photos';
 const GOOGLE_DRIVE_FOLDER = 'https://drive.google.com/open?id=1bW3oMv_-P703w4AN_r3NrrDBNLpDDva0';
@@ -83,7 +83,7 @@ export default class GalleryScreen extends React.Component {
 
   render() {
     if (this.state.complete) {
-        return <IdentityConfirm />
+        return <RegisterIdentity />
     }
     return (
       <View style={styles.container}>
