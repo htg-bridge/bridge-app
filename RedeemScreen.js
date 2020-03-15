@@ -2,22 +2,22 @@ import Expo from 'expo';
 import React from 'react';
 import { Button, StyleSheet, Text, View, Dimensions, Image, Alert, TouchableOpacity } from 'react-native';
 
-export function HomeScreen({ navigation }) {
+export function RedeemScreen({ navigation }) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', top: -50 }}>
         <Image style={{ width: 200, height: 130}} source={require('./assets/bridge_logo.png')} />
         <View style={styles.buttonContainer}>
             <Button
-                title="Adult"
-                onPress={() => navigation.navigate('Bridge')}
+                title="Register"
+                onPress={() => navigation.navigate('Camera')}
                 color="white"
             />
         </View> 
         <View style={styles.buttonContainer}>
             <Button
                 raised
-                title="Infant"
-                onPress={() => navigation.navigate('Bridge')}
+                title="Redeem"
+                onPress={() => navigation.navigate('VerifyFace')}
                 color="white"
             />
         </View> 
