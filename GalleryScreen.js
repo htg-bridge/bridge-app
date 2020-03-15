@@ -104,7 +104,7 @@ export default class GalleryScreen extends React.Component {
           </View>
         </ScrollView>
         <View style={{flex: 1}}>
-          <Text style={{alignSelf: 'center'}}>Please select 2 photos and click upload.</Text>
+          <Text style={{alignSelf: 'center', fontSize: 16}}>Please select 2 photos and click upload.</Text>
         </View>
       </View>
     );

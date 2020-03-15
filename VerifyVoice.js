@@ -12,9 +12,9 @@ export default class VerifyVoice extends React.Component {
   };
 
   componentDidMount() {
-    setTimeout(() => {this.setState({recordingImage: require('./assets/recording1.png')})}, 800);
-    setTimeout(() => {this.setState({recordingImage: require('./assets/recording2.png')})}, 1600);
-    setTimeout(() => {this.setState({timePassed: true})}, 2500)
+    setTimeout(() => {this.setState({recordingImage: require('./assets/recording1.png')})}, 1200);
+    setTimeout(() => {this.setState({recordingImage: require('./assets/recording2.png')})}, 2400);
+    setTimeout(() => {this.setState({timePassed: true})}, 5000)
   }
 
   recordAudio = async () => {
@@ -38,7 +38,9 @@ export default class VerifyVoice extends React.Component {
           <Image style={{ width: 310, height: 160, alignSelf: 'center'}} source={this.state.recordingImage} />
         </View>
         <View style={{flex: 1}}>
-          <Text style={{alignSelf: 'center', fontSize: 18}}>Please say GO HOME LIAO</Text>
+          <Text style={{alignSelf: 'center', fontSize: 18}}>Please say 
+            <Text style={{fontSize: 18, fontWeight: 'bold'}}> "Biscuit Cookie Grumble"</Text>
+          </Text>
         </View>
       </View>
     );

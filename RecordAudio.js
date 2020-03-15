@@ -13,8 +13,8 @@ export default class RecordAudio extends React.Component {
   };
 
   componentDidMount() {
-      setTimeout(() => {this.setState({recordingImage: require('./assets/recording1.png')})}, 800);
-      setTimeout(() => {this.setState({recordingImage: require('./assets/recording2.png')})}, 1600);
+      setTimeout(() => {this.setState({recordingImage: require('./assets/recording1.png')})}, 1000);
+      setTimeout(() => {this.setState({recordingImage: require('./assets/recording2.png')})}, 2000);
   }
 
   recordAudio = async () => {
@@ -38,7 +38,9 @@ export default class RecordAudio extends React.Component {
             <Image style={{ width: 310, height: 160, alignSelf: 'center'}} source={this.state.recordingImage} />
           </View>
           <View style={{flex: 1}}>
-            <Text style={{alignSelf: 'center', fontSize: 18}}>Please say GO HOME LIAO...</Text>
+            <Text style={{alignSelf: 'center', fontSize: 18}}>Please say 
+                <Text style={{fontSize: 18, fontWeight: 'bold'}}> "Biscuit Cookie Grumble"</Text>
+            </Text>
             <View style={styles.buttonContainer}>
                 <Button
                 title="Done"
@@ -63,6 +65,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     margin: 20,
+    left: 20,
     width: 220,
     backgroundColor: '#5AC9B7',
     borderRadius:20,

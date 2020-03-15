@@ -47,8 +47,8 @@ export default class VerifyFace extends React.Component {
   }
 
   componentDidMount() {
-    setTimeout(this.changeRectangleColour, 2000)
-    setTimeout(() => {this.setState({timePassed: true})}, 3000)
+    setTimeout(this.changeRectangleColour, 4000)
+    setTimeout(() => {this.setState({timePassed: true})}, 6000)
   }
 
   getRatios = async () => {
