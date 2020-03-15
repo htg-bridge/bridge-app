@@ -15,7 +15,7 @@ export default class IdentityConfirm extends React.Component {
           <Image style={{ width: 220, height: 220}} source={require('./assets/tick.png')} />
         </View>
         <View style={{flex: 1}}>
-          <Text style={{alignSelf: 'center'}}>GO HOME LIAO</Text>
+          <Text style={{alignSelf: 'center'}}>You're all set!</Text>
         </View>
       </View>
     );

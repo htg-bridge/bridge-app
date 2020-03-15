@@ -14,6 +14,7 @@ import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
 
 import GalleryScreen from './GalleryScreen';
+import RecordAudio from './RecordAudio';
 
 import { 
   Ionicons,
@@ -113,6 +114,10 @@ export default class CameraScreen extends React.Component {
 
   renderGallery() {
     return <GalleryScreen onPress={this.toggleView.bind(this)} />;
+  }
+
+  renderVoiceRecord() {
+    return <RecordAudio onPress={this.toggleView.bind(this)} />;
   }
 
   renderFace({ bounds, faceID, rollAngle, yawAngle }) {
@@ -249,7 +254,7 @@ export default class CameraScreen extends React.Component {
     const cameraScreenContent = this.state.permissionsGranted
       ? this.renderCamera()
       : this.renderNoPermissions();
-    const content = this.state.showGallery ? this.renderGallery() : cameraScreenContent;
+    const content = this.state.showGallery ? this.renderVoiceRecord() : cameraScreenContent;
     return <View style={styles.container}>{content}</View>;
   }
 }

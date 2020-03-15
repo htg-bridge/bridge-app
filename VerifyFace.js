@@ -169,22 +169,6 @@ export default class VerifyFace extends React.Component {
       </TouchableOpacity>   
     </View>
 
-  renderBottomBar = () =>
-    <View
-      style={styles.bottomBar}>
-      <TouchableOpacity style={styles.bottomButton} onPress={this.toggleMoreOptions}>
-        <Octicons name="kebab-horizontal" size={30} color="white"/>
-      </TouchableOpacity>
-      <View style={{ flex: 0.4 }}>
-        <TouchableOpacity
-          onPress={this.changeRectangleColour}
-          style={{ alignSelf: 'center' }}
-        >
-          <Ionicons name="ios-radio-button-on" size={70} color="white" />
-        </TouchableOpacity>
-      </View> 
-    </View>
-
   renderCamera = () =>
     (
       <View style={{ flex: 1 }}>
@@ -204,7 +188,6 @@ export default class VerifyFace extends React.Component {
           >
           {this.renderTopBar()}
           <View style={[styles.rectangle, {borderColor: this.state.rectangleColor}]} />
-          {this.renderBottomBar()}
         </Camera>
         {this.state.faceDetecting && this.renderFaces()}
         {this.state.faceDetecting && this.renderLandmarks()}
@@ -237,14 +220,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingTop: Constants.statusBarHeight / 2,
-  },
-  bottomBar: {
-    paddingBottom: 25,
-    backgroundColor: 'transparent',
-    alignSelf: 'flex-end',
-    justifyContent: 'space-between',
-    flex: 0.12,
-    flexDirection: 'row',
   },
   noPermissions: {
     flex: 1,
@@ -304,7 +279,7 @@ const styles = StyleSheet.create({
   rectangle: {
     backgroundColor: 'transparent',
     alignSelf: 'center',
-    bottom: 50,
+    bottom: 250,
     flex: 0.4,
     width: 220, height: 340,
     borderStyle: 'solid', borderColor: 'red', borderWidth: 3

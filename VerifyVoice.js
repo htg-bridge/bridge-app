@@ -8,10 +8,13 @@ import IdentityConfirm from './IdentityConfirm';
 export default class VerifyVoice extends React.Component {
   state = {
     timePassed: false,
+    recordingImage: require('./assets/voiceIcon.png'),
   };
 
   componentDidMount() {
-    setTimeout(() => {this.setState({timePassed: true})}, 2000)
+    setTimeout(() => {this.setState({recordingImage: require('./assets/recording1.png')})}, 800);
+    setTimeout(() => {this.setState({recordingImage: require('./assets/recording2.png')})}, 1600);
+    setTimeout(() => {this.setState({timePassed: true})}, 2500)
   }
 
   recordAudio = async () => {
@@ -32,7 +35,7 @@ export default class VerifyVoice extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.imageContainer}>
-          <Image style={{ width: 220, height: 220}} source={require('./assets/voiceIcon.png')} />
+          <Image style={{ width: 310, height: 160, alignSelf: 'center'}} source={this.state.recordingImage} />
         </View>
         <View style={{flex: 1}}>
           <Text style={{alignSelf: 'center'}}>Please say GO HOME LIAO</Text>

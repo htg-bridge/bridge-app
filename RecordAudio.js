@@ -1,16 +1,21 @@
 import React from 'react';
-import { Image, StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { Image, StyleSheet, View, TouchableOpacity, Text, Button } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
+import IdentityConfirm from './IdentityConfirm';
+import GalleryScreen from './GalleryScreen';
 
 export default class RecordAudio extends React.Component {
   state = {
-    faces: {},
-    images: {},
-    photos: [],
-    selected: [],
+      moveOn: false,
+      recordingImage: require('./assets/voiceIcon.png'),
   };
+
+  componentDidMount() {
+      setTimeout(() => {this.setState({recordingImage: require('./assets/recording1.png')})}, 800);
+      setTimeout(() => {this.setState({recordingImage: require('./assets/recording2.png')})}, 1600);
+  }
 
   recordAudio = async () => {
     const recording = new Audio.Recording();
@@ -24,20 +29,25 @@ export default class RecordAudio extends React.Component {
   }
 
   render() {
+    if (this.state.moveOn) {
+        return <GalleryScreen />
+    }
     return (
-      <View style={styles.container}>
-        <View style={styles.navbar}>
-          <TouchableOpacity style={styles.button} onPress={this.props.onPress}>
-            <MaterialIcons name="arrow-back" size={25} color="white" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={this.saveToCloud}>
-            <MaterialIcons name="cloud-upload" size={25} color="white" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={this.deleteFiles}>
-            <MaterialIcons name="delete" size={25} color="white" />
-          </TouchableOpacity>
+        <View style={styles.container}>
+          <View style={styles.imageContainer}>
+            <Image style={{ width: 310, height: 160, alignSelf: 'center'}} source={this.state.recordingImage} />
+          </View>
+          <View style={{flex: 1}}>
+            <Text style={{alignSelf: 'center'}}>Please say GO HOME LIAO...</Text>
+            <View style={styles.buttonContainer}>
+                <Button
+                title="Done"
+                onPress={() => {this.setState({moveOn: true})}}
+                color="white"
+                />
+            </View> 
+          </View>
         </View>
-      </View>
     );
   }
 }
@@ -47,24 +57,26 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 20,
     backgroundColor: 'white',
-  },
-  navbar: {
-    flexDirection: 'row',
+    justifyContent: 'center',
+    alignContent: 'center',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: '#4630EB',
   },
-  pictures: {
-    flex: 1,
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingVertical: 8,
+  buttonContainer: {
+    margin: 20,
+    width: 220,
+    backgroundColor: '#2196F3',
+    borderRadius:20,
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
   },
   button: {
     padding: 20,
   },
-  whiteText: {
-    color: 'white',
+  imageContainer: {
+    flex: 1,
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });

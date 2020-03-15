@@ -15,8 +15,8 @@ function App() {
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Welcome" component={HomeScreen} />
         <Stack.Screen name="Bridge" component={RedeemScreen} />
-        <Stack.Screen name="Camera" component={CameraScreen} />
-        <Stack.Screen name="VerifyFace" component={VerifyFace} />
+        <Stack.Screen name="Register" component={CameraScreen} />
+        <Stack.Screen name="Redeem" component={VerifyFace} />
       </Stack.Navigator>
     </NavigationContainer>
   );

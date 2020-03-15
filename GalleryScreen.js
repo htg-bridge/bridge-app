@@ -6,6 +6,7 @@ import * as MediaLibrary from 'expo-media-library';
 import * as Permissions from 'expo-permissions';
 import { MaterialIcons } from '@expo/vector-icons';
 import Photo from './Photo';
+import IdentityConfirm from './IdentityConfirm';
 
 const PHOTOS_DIR = FileSystem.documentDirectory + 'photos';
 const GOOGLE_DRIVE_FOLDER = 'https://drive.google.com/open?id=1bW3oMv_-P703w4AN_r3NrrDBNLpDDva0';
@@ -17,6 +18,7 @@ export default class GalleryScreen extends React.Component {
     images: {},
     photos: [],
     selected: [],
+    complete: false,
   };
 
   componentDidMount = async () => {
@@ -51,6 +53,7 @@ export default class GalleryScreen extends React.Component {
 
       await Promise.all(promises);
       alert('Successfully uploaded photos to cloud!');
+      this.setState({complete: true});
     } else {
       alert('No photos to save!');
     }
@@ -79,6 +82,9 @@ export default class GalleryScreen extends React.Component {
     />;
 
   render() {
+    if (this.state.complete) {
+        return <IdentityConfirm />
+    }
     return (
       <View style={styles.container}>
         <View style={styles.navbar}>
@@ -86,17 +92,20 @@ export default class GalleryScreen extends React.Component {
             <MaterialIcons name="arrow-back" size={25} color="white" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={this.saveToCloud}>
-            <MaterialIcons name="cloud-upload" size={25} color="white" />
+            <MaterialIcons style={{alignSelf: 'center'}} name="cloud-upload" size={25} color="white" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={this.deleteFiles}>
             <MaterialIcons name="delete" size={25} color="white" />
           </TouchableOpacity>
         </View>
-        <ScrollView contentComponentStyle={{ flex: 1 }}>
+        <ScrollView contentComponentStyle={{ flex: 1}}>
           <View style={styles.pictures}>
             {this.state.photos.map(this.renderPhoto)}
           </View>
         </ScrollView>
+        <View style={{flex: 1}}>
+          <Text style={{alignSelf: 'center'}}>Please select 2 photos and click upload.</Text>
+        </View>
       </View>
     );
   }
@@ -118,11 +127,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexWrap: 'wrap',
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     paddingVertical: 8,
   },
   button: {
     padding: 20,
+    alignSelf: 'center'
   },
   whiteText: {
     color: 'white',

@@ -9,7 +9,7 @@ export function RedeemScreen({ navigation }) {
         <View style={styles.buttonContainer}>
             <Button
                 title="Register"
-                onPress={() => navigation.navigate('Camera')}
+                onPress={() => navigation.navigate('Register')}
                 color="white"
             />
         </View> 
@@ -17,7 +17,7 @@ export function RedeemScreen({ navigation }) {
             <Button
                 raised
                 title="Redeem"
-                onPress={() => navigation.navigate('VerifyFace')}
+                onPress={() => navigation.navigate('Redeem')}
                 color="white"
             />
         </View> 
