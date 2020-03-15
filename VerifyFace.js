@@ -10,10 +10,7 @@ import {
 } from 'react-native';
 import Constants from 'expo-constants';
 import { Camera } from 'expo-camera'; 
-import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
-
-import GalleryScreen from './GalleryScreen';
 
 import { 
   Ionicons,
@@ -23,11 +20,12 @@ import {
   Octicons
 } from '@expo/vector-icons';
 
+import VerifyVoice from './VerifyVoice';
+
 const landmarkSize = 2;
 
-export default class CameraScreen extends React.Component {
+export default class VerifyFace extends React.Component {
   state = {
-    zoom: 0,
     autoFocus: 'on',
     type: 'back',
     ratio: '16:9',
@@ -39,20 +37,18 @@ export default class CameraScreen extends React.Component {
     pictureSize: undefined,
     pictureSizes: [],
     pictureSizeId: 0,
-    showGallery: false,
-    showMoreOptions: false,
+    rectangleColor: 'red',
+    timePassed: false,
   };
 
   async UNSAFE_componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ permissionsGranted: status === 'granted' });
   }
 
   componentDidMount() {
-    FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'photos').catch(e => {
-      console.log(e, 'Directory exists');
-    });
+    setTimeout(this.changeRectangleColour, 2000)
+    setTimeout(() => {this.setState({timePassed: true})}, 3000)
   }
 
   getRatios = async () => {
@@ -60,39 +56,15 @@ export default class CameraScreen extends React.Component {
     return ratios;
   };
 
-  toggleView = () => this.setState({ showGallery: !this.state.showGallery, newPhotos: false });
-
-  toggleMoreOptions = () => this.setState({ showMoreOptions: !this.state.showMoreOptions });
-
   toggleFacing = () => this.setState({ type: this.state.type === 'back' ? 'front' : 'back' });
 
-  setRatio = ratio => this.setState({ ratio });
-
   toggleFocus = () => this.setState({ autoFocus: this.state.autoFocus === 'on' ? 'off' : 'on' });
-
-  zoomOut = () => this.setState({ zoom: this.state.zoom - 0.1 < 0 ? 0 : this.state.zoom - 0.1 });
-
-  zoomIn = () => this.setState({ zoom: this.state.zoom + 0.1 > 1 ? 1 : this.state.zoom + 0.1 });
 
   setFocusDepth = depth => this.setState({ depth });
 
   toggleFaceDetection = () => this.setState({ faceDetecting: !this.state.faceDetecting });
 
-  takePicture = () => {
-    if (this.camera) {
-      this.camera.takePictureAsync({ onPictureSaved: this.onPictureSaved });
-    }
-  };
-
   handleMountError = ({ message }) => console.error(message);
-
-  onPictureSaved = async photo => {
-    await FileSystem.moveAsync({
-      from: photo.uri,
-      to: `${FileSystem.documentDirectory}photos/${Date.now()}.jpg`,
-    });
-    this.setState({ newPhotos: true });
-  }
 
   onFacesDetected = ({ faces }) => this.setState({ faces });
   onFaceDetectionError = state => console.warn('Faces detection error:', state);
@@ -111,8 +83,8 @@ export default class CameraScreen extends React.Component {
     }
   };
 
-  renderGallery() {
-    return <GalleryScreen onPress={this.toggleView.bind(this)} />;
+  changeRectangleColour = () => {
+    this.setState({ rectangleColor: 'green'});
   }
 
   renderFace({ bounds, faceID, rollAngle, yawAngle }) {
@@ -205,18 +177,12 @@ export default class CameraScreen extends React.Component {
       </TouchableOpacity>
       <View style={{ flex: 0.4 }}>
         <TouchableOpacity
-          onPress={this.takePicture}
+          onPress={this.changeRectangleColour}
           style={{ alignSelf: 'center' }}
         >
           <Ionicons name="ios-radio-button-on" size={70} color="white" />
         </TouchableOpacity>
       </View> 
-      <TouchableOpacity style={styles.bottomButton} onPress={this.toggleView}>
-        <View>
-          <Foundation name="thumbnails" size={30} color="white" />
-          {this.state.newPhotos && <View style={styles.newPhotosDot}/>}
-        </View>
-      </TouchableOpacity>
     </View>
 
   renderCamera = () =>
@@ -230,7 +196,6 @@ export default class CameraScreen extends React.Component {
           onCameraReady={this.collectPictureSizes}
           type={this.state.type}
           autoFocus={this.state.autoFocus}
-          zoom={this.state.zoom}
           ratio={this.state.ratio}
           pictureSize={this.state.pictureSize}
           onMountError={this.handleMountError}
@@ -238,6 +203,7 @@ export default class CameraScreen extends React.Component {
           onFaceDetectionError={this.onFaceDetectionError}
           >
           {this.renderTopBar()}
+          <View style={[styles.rectangle, {borderColor: this.state.rectangleColor}]} />
           {this.renderBottomBar()}
         </Camera>
         {this.state.faceDetecting && this.renderFaces()}
@@ -246,10 +212,12 @@ export default class CameraScreen extends React.Component {
     );
 
   render() {
-    const cameraScreenContent = this.state.permissionsGranted
-      ? this.renderCamera()
-      : this.renderNoPermissions();
-    const content = this.state.showGallery ? this.renderGallery() : cameraScreenContent;
+    //
+    if (this.state.timePassed) {
+      return <VerifyVoice />
+    }
+    const cameraScreenContent = this.state.permissionsGranted ? this.renderCamera() : this.renderNoPermissions();
+    const content = cameraScreenContent;
     return <View style={styles.container}>{content}</View>;
   }
 }
@@ -284,11 +252,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 10,
   },
-  gallery: {
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
   toggleButton: {
     flex: 0.25,
     height: 40,
@@ -308,51 +271,6 @@ const styles = StyleSheet.create({
     height: 58, 
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  newPhotosDot: {
-    position: 'absolute',
-    top: 0,
-    right: -5,
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#4630EB'
-  },
-  options: {
-    position: 'absolute',
-    bottom: 80,
-    left: 30,
-    width: 200,
-    height: 160,
-    backgroundColor: '#000000BA',
-    borderRadius: 4,
-    padding: 10,
-  },
-  detectors: {
-    flex: 0.5,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  pictureQualityLabel: {
-    fontSize: 10,
-    marginVertical: 3, 
-    color: 'white'
-  },
-  pictureSizeContainer: {
-    flex: 0.5,
-    alignItems: 'center',
-    paddingTop: 10,
-  },
-  pictureSizeChooser: {
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexDirection: 'row'
-  },
-  pictureSizeLabel: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
   },
   facesContainer: {
     position: 'absolute',
@@ -383,7 +301,12 @@ const styles = StyleSheet.create({
     margin: 10,
     backgroundColor: 'transparent',
   },
-  row: {
-    flexDirection: 'row',
+  rectangle: {
+    backgroundColor: 'transparent',
+    alignSelf: 'center',
+    bottom: 50,
+    flex: 0.4,
+    width: 220, height: 340,
+    borderStyle: 'solid', borderColor: 'red', borderWidth: 3
   },
 });

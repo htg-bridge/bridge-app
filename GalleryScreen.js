@@ -34,27 +34,6 @@ export default class GalleryScreen extends React.Component {
     this.setState({ selected });
   };
 
-  saveToGallery = async () => {
-    const photos = this.state.selected;
-
-    if (photos.length > 0) {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-
-      if (status !== 'granted') {
-        throw new Error('Denied CAMERA_ROLL permissions!');
-      }
-
-      const promises = photos.map(photoUri => {
-        return MediaLibrary.createAssetAsync(photoUri);
-      });
-
-      await Promise.all(promises);
-      alert('Successfully saved photos to user\'s gallery!');
-    } else {
-      alert('No photos to save!');
-    }
-  };
-
   saveToCloud = async () => {
     const photos = this.state.selected;
 
@@ -77,6 +56,21 @@ export default class GalleryScreen extends React.Component {
     }
   };
 
+  deleteFiles = async () => {
+    const photos = this.state.selected;
+
+    if (photos.length > 0) {
+      const promises = photos.map(photoUri => {
+        return FileSystem.deleteAsync(photoUri);
+      });
+      await Promise.all(promises);
+      alert('Successfully deleted all photos!');
+    } else {
+      alert('No photos to save!');
+    }
+  };
+
+
   renderPhoto = fileName => 
     <Photo
       key={fileName}
@@ -91,11 +85,11 @@ export default class GalleryScreen extends React.Component {
           <TouchableOpacity style={styles.button} onPress={this.props.onPress}>
             <MaterialIcons name="arrow-back" size={25} color="white" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={this.saveToGallery}>
-            <Text style={styles.whiteText}>Save selected to gallery</Text>
-          </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={this.saveToCloud}>
-            <Text style={styles.whiteText}>Upload to cloud</Text>
+            <MaterialIcons name="cloud-upload" size={25} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={this.deleteFiles}>
+            <MaterialIcons name="delete" size={25} color="white" />
           </TouchableOpacity>
         </View>
         <ScrollView contentComponentStyle={{ flex: 1 }}>
